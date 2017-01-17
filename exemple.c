@@ -1,6 +1,9 @@
 #include "dessine.h"
+#include <math.h>
 
 #define tailleCoteCarre 40
+
+
 
 /**
  * Mettre ici son code pour dessiner dans la fenetre
@@ -19,44 +22,8 @@ void draw_win(int nbLigne)
 		line(x0+i*tailleCoteCarre,y0,x0+i*tailleCoteCarre,tailleTot);
 		line(x0,y0+i*tailleCoteCarre,tailleTot,y0+i*tailleCoteCarre);
 	}
-	
-	
-	
-	/*
-	// vide la fenetre
-	clear_win();
-
-	int i,j;
-	for(i=0; i<height_win()/2; i+=2)
-	{
-		for(j=0; j<width_win(); j+=2)
-		{
-			float r = (float)rand()/RAND_MAX;
-			float v = (float)rand()/RAND_MAX;
-			float b = (float)rand()/RAND_MAX;
-			color(r,v,b);
-			pixel(j,i);
-		}
-	}
-		
-	for(i=height_win()/2; i<height_win(); i+=4)
-	{
-		for(j=0; j<width_win(); j+=4)
-		{
-			float g = (float)rand()/RAND_MAX;
-			color(g,g,g);
-			filled_rectangle(j,i,4,4);
-		}
-	}
-	
-	color(1,0,0);
-	for(j=0; j<width_win(); j+=20)
-		line(j,24, width_win()-j, height_win()-24);
-
-	color(11,1,1);
-	string(5,5,"Test Affichage chaine");
-	*/
 }
+
 
 
 /**
@@ -68,8 +35,29 @@ void mouse_clicked(int bouton, int x, int y)
 {
 	printf("Bouton %d presse au coord. %d,%d \n",bouton,x,y);
 	
-	color( 1.0,0.0,1.0);
-	filled_circle(x,y,10);
+	
+	//on calcule la l'intersection selectionné
+	double xFinal= x;
+	double yFinal= y;
+	
+	xFinal /=tailleCoteCarre; //on divise par le cotes carre
+	yFinal /=tailleCoteCarre;
+	xFinal = round(xFinal); // et on arrondit 
+	yFinal = round(yFinal);
+	printf("x : %f y :%f \n",xFinal,yFinal);
+	
+	//vérification que le clic est dans la grille de jeu
+	if( xFinal < 1 || xFinal > 13 || yFinal < 1 || yFinal > 13 )
+	{
+		printf("vous avez cliquer hors de la zone \n");
+		
+	}else
+	{
+		//on affiche le point sur l'intersection caculée (traitement)
+		color( 1.0,1.0,1.0);
+		filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré
+	}
+	
 }
 
 
@@ -113,7 +101,20 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris)
 
 int main() 
 {
+	
+	int tblJeu [13][13]= {0};
+	int x,y;
+	for(x=0; x<13; x++)
+	{
+		for(y=0; y<13; y++)
+		{
+			printf("%d",tblJeu[x][y]);
+		}
+	}
+	
 	init_win(600,600,"Jeu de GO J&A",204,153,102);
-	event_loop(13);
+	event_loop(13); // 13 est le nombre de lignes de notre jeu de GO
 	return EXIT_SUCCESS;
+	
+	
 }

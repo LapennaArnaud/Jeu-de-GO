@@ -4,7 +4,7 @@ clean:
 	rm exemple dessine.o libdessine.a
 	
 exemple: exemple.c dessine.h libdessine.a
-	gcc -g exemple.c -o exemple -L. -ldessine -lX11
+	gcc -g exemple.c -o exemple -L. -ldessine -lX11 -lm
 
 libdessine.a: dessine.c dessine.h
 	gcc -g -c dessine.c
