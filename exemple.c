@@ -3,6 +3,30 @@
 
 #define tailleCoteCarre 40
 
+int tblJeu[13][13]= {0};
+int tourJoueur = 1;
+
+void afficherTableau(int tblJeu[13][13], int tailleTbl)
+{
+	int i,j;
+	for(i=0; i<tailleTbl; i++)
+	{
+		for(j=0; j<tailleTbl; j++)
+		{
+			printf("%d",tblJeu[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
+{
+	if(tblJeu[((int)yFinal)-1][((int)xFinal)-1]==0)
+		return 1;
+	else
+		return 0;
+}
+
 
 
 /**
@@ -33,7 +57,7 @@ void draw_win(int nbLigne)
  */
 void mouse_clicked(int bouton, int x, int y)
 {
-	printf("Bouton %d presse au coord. %d,%d \n",bouton,x,y);
+	//printf("Bouton %d presse au coord. %d,%d \n",bouton,x,y);
 	
 	
 	//on calcule la l'intersection selectionné
@@ -53,9 +77,30 @@ void mouse_clicked(int bouton, int x, int y)
 		
 	}else
 	{
-		//on affiche le point sur l'intersection caculée (traitement)
-		color( 1.0,1.0,1.0);
-		filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré
+		if (checkEmplacementLibre(tblJeu, xFinal, yFinal)==1)
+		{
+			if(tourJoueur == 1) // noir
+			{
+				//on affiche le point sur l'intersection caculée (traitement)
+				color( 0.0,0.0,0.0);		
+				tblJeu[((int)yFinal)-1][((int)xFinal)-1] = 1; // /!\  coord y correspond aux ordonnées donc les lignesTBL [y][] ET coord x corresponf aux  absices donc les colonesTBL [][x]				
+				tourJoueur=2;
+			}else
+			{
+				if(tourJoueur == 2) // blanc
+				{
+					//on affiche le point sur l'intersection caculée (traitement)
+					color( 1.0,1.0,1.0);		
+					tblJeu[((int)yFinal)-1][((int)xFinal)-1] = 2; // /!\  coord y correspond aux ordonnées donc les lignesTBL [y][] ET coord x corresponf aux  absices donc les colonesTBL [][x]
+					tourJoueur=1;
+				}
+			}
+			
+			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré
+			afficherTableau(tblJeu, 13);
+		}
+		else
+			printf("Vous ne pouvez pas replacer un pion ici \n");
 	}
 	
 }
@@ -99,22 +144,19 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris)
 }
 
 
+
 int main() 
 {
 	
-	int tblJeu [13][13]= {0};
-	int x,y;
-	for(x=0; x<13; x++)
-	{
-		for(y=0; y<13; y++)
-		{
-			printf("%d",tblJeu[x][y]);
-		}
-	}
 	
-	init_win(600,600,"Jeu de GO J&A",204,153,102);
+	init_win(560,560,"Jeu de GO J&A",204,153,102);
 	event_loop(13); // 13 est le nombre de lignes de notre jeu de GO
 	return EXIT_SUCCESS;
 	
 	
 }
+
+
+	
+	
+	
