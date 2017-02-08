@@ -47,7 +47,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 	//xFinal; yFinal+1;
 	if( tblJeu[(((int)yFinal)-1)+1][(((int)xFinal)-1)] == tourAdverse ) // nord
 	{
-		printf("OH PUTIN YA UN PION ADVERSE AU NORD \n");
+		printf("OH PUTIN YA UN FDP ADVERSE AU NORD \n");
 	}				
 	//xFinal+1; yFinal;
 	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // est
