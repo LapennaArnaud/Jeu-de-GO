@@ -28,6 +28,61 @@ int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
 }
 
 
+void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
+{
+	int tourAdverse;
+	
+	if(tourJoueur==1)
+		tourAdverse=2;
+	else
+		tourAdverse=1;
+	
+	printf("----------fonc checkEnnemieAutour--------------\n");
+	printf(" tour joueur : %d || tour adverse : %d \n",tourJoueur,tourAdverse);
+	printf(" posY fonc check ennemie: %d \n", (int)yFinal);
+	printf(" posX fonc check ennemie : %d \n", (int)xFinal);
+	printf("-----------------------------------------------\n");
+	
+	//check des 4 positions adjacentes au pion placé (Nord Est Sud Ouest)
+	//xFinal; yFinal+1;
+	if( tblJeu[(((int)yFinal)-1)+1][(((int)xFinal)-1)] == tourAdverse ) // nord
+	{
+		printf("OH PUTIN YA UN PION ADVERSE AU NORD \n");
+	}				
+	//xFinal+1; yFinal;
+	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // est
+	{
+		printf("OH PUTIN YA UN PION ADVERSE A L EST \n");
+	}
+	//xFinal; yFinal - 1;
+	if(tblJeu[(((int)yFinal)-1)-1][(((int)xFinal)-1)] == tourAdverse) // sud
+	{
+		printf("OH PUTIN YA UN PION ADVERSE AU SUD \n");
+	}			
+	//xFinal-1; yFinal;
+	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)-1] == tourAdverse) // ouest
+	{
+		printf("OH PUTIN YA UN PION ADVERSE A L OUEST \n");
+	}	
+}
+
+
+int checkAucuneLiberte(int xFinal,int yFinal,int tblJeu[13][13])
+{
+	int nord, sud, est, ouest;
+	
+	nord = checkEmplacementLibre(tblJeu, (((int)yFinal)+1), ((int)xFinal));
+	est = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)+1));
+	sud = checkEmplacementLibre(tblJeu, (((int)yFinal)-1), ((int)xFinal));	
+	ouest = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)-1));
+	
+	if (nord == 0 && est == 0 && sud == 0 && ouest == 0)
+		return 1;
+	else
+		return 0;
+}
+
+
 
 /**
  * Mettre ici son code pour dessiner dans la fenetre
@@ -57,7 +112,8 @@ void draw_win(int nbLigne)
  */
 void mouse_clicked(int bouton, int x, int y)
 {
-	//printf("Bouton %d presse au coord. %d,%d \n",bouton,x,y);
+	printf("\n#########--|| mouse_clicked ||--#########\n");
+	//printf("\nBouton %d presse au coord. %d,%d \n",bouton,x,y);
 	
 	
 	//on calcule la l'intersection selectionné
@@ -68,8 +124,9 @@ void mouse_clicked(int bouton, int x, int y)
 	yFinal /=tailleCoteCarre;
 	xFinal = round(xFinal); // et on arrondit 
 	yFinal = round(yFinal);
-	printf("x : %f y :%f \n",xFinal,yFinal);
 	
+	printf("x : %f y :%f \n",xFinal,yFinal);
+
 	//vérification que le clic est dans la grille de jeu
 	if( xFinal < 1 || xFinal > 13 || yFinal < 1 || yFinal > 13 )
 	{
@@ -84,6 +141,7 @@ void mouse_clicked(int bouton, int x, int y)
 				//on affiche le point sur l'intersection caculée (traitement)
 				color( 0.0,0.0,0.0);		
 				tblJeu[((int)yFinal)-1][((int)xFinal)-1] = 1; // /!\  coord y correspond aux ordonnées donc les lignesTBL [y][] ET coord x corresponf aux  absices donc les colonesTBL [][x]				
+				checkEnnemieAutour(tourJoueur,xFinal,yFinal);
 				tourJoueur=2;
 			}else
 			{
@@ -92,10 +150,10 @@ void mouse_clicked(int bouton, int x, int y)
 					//on affiche le point sur l'intersection caculée (traitement)
 					color( 1.0,1.0,1.0);		
 					tblJeu[((int)yFinal)-1][((int)xFinal)-1] = 2; // /!\  coord y correspond aux ordonnées donc les lignesTBL [y][] ET coord x corresponf aux  absices donc les colonesTBL [][x]
+					checkEnnemieAutour(tourJoueur,xFinal,yFinal);
 					tourJoueur=1;
 				}
 			}
-			
 			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré
 			afficherTableau(tblJeu, 13);
 		}
@@ -104,6 +162,9 @@ void mouse_clicked(int bouton, int x, int y)
 	}
 	
 }
+
+
+
 
 
 /**
