@@ -27,6 +27,42 @@ int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
 		return 0;
 }
 
+// IL FAUT DEBUGER LA FONCTION CHECK AUCUNE LIBERTE ---------------------------------------------------------------------------------<=====
+int checkAucuneLiberte(int xFinal,int yFinal,int tblJeu[13][13])
+{
+	int nord, sud, est, ouest;
+	
+	nord = checkEmplacementLibre(tblJeu, (((int)yFinal)-1), ((int)xFinal));
+	est = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)+1));
+	sud = checkEmplacementLibre(tblJeu, (((int)yFinal)+1), ((int)xFinal));	
+	ouest = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)-1));
+	printf("check aucune liberté ## nord: %d | est: %d | sud: %d | ouest: %d\n",nord,est,sud,ouest);
+	if (nord == 0 && est == 0 && sud == 0 && ouest == 0)
+		return 1;
+	else
+		return 0;
+}
+
+void transformePion(int xFinal,int yFinal,int tblJeu[13][13])
+{
+	if(tblJeu[(yFinal-1)][(xFinal-1)]!=0)
+	{
+		if(tblJeu[(yFinal-1)][(xFinal-1)]==1)
+		{
+			tblJeu[(yFinal-1)][(xFinal-1)]=2;
+			color( 1.0,1.0,1.0);
+			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10);
+		}
+	
+		if(tblJeu[(yFinal-1)][(xFinal-1)]==2)
+		{
+			tblJeu[(yFinal-1)][(xFinal-1)]=1;
+			color( 0.0,0.0,0.0);
+			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10);
+		}
+	}
+}
+
 
 void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 {
@@ -48,6 +84,11 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 	if(tblJeu[(((int)yFinal)-1)-1][(((int)xFinal)-1)] == tourAdverse) // Nord
 	{
 		printf("WOW YA UN PION ADVERSE AU NORD \n");
+		if( checkAucuneLiberte(xFinal,(yFinal-1),tblJeu) )
+		{
+			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			transformePion(xFinal,(yFinal-1),tblJeu);
+		}
 	}
 	//xFinal+1; yFinal;
 	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // Est
@@ -66,21 +107,6 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 	}	
 }
 
-
-int checkAucuneLiberte(int xFinal,int yFinal,int tblJeu[13][13])
-{
-	int nord, sud, est, ouest;
-	
-	nord = checkEmplacementLibre(tblJeu, (((int)yFinal)-1), ((int)xFinal));
-	est = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)+1));
-	sud = checkEmplacementLibre(tblJeu, (((int)yFinal)+1), ((int)xFinal));	
-	ouest = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)-1));
-	
-	if (nord == 0 && est == 0 && sud == 0 && ouest == 0)
-		return 1;
-	else
-		return 0;
-}
 
 
 
