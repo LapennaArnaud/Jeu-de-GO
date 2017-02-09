@@ -44,25 +44,25 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 	printf("-----------------------------------------------\n");
 	
 	//check des 4 positions adjacentes au pion placé (Nord Est Sud Ouest)
-	//xFinal; yFinal+1;
-	if( tblJeu[(((int)yFinal)-1)+1][(((int)xFinal)-1)] == tourAdverse ) // Sud
-	{
-		printf("OH PUTIN YA UN PION ADVERSE AU SUD \n");
-	}				
-	//xFinal+1; yFinal;
-	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // Est
-	{
-		printf("OH PUTIN YA UN PION ADVERSE A L'EST \n");
-	}
 	//xFinal; yFinal - 1;
 	if(tblJeu[(((int)yFinal)-1)-1][(((int)xFinal)-1)] == tourAdverse) // Nord
 	{
-		printf("OH PUTIN YA UN PION ADVERSE AU NORD \n");
-	}			
+		printf("WOW YA UN PION ADVERSE AU NORD \n");
+	}
+	//xFinal+1; yFinal;
+	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // Est
+	{
+		printf("WOW YA UN PION ADVERSE A L'EST \n");
+	}
+	//xFinal; yFinal+1;
+	if( tblJeu[(((int)yFinal)-1)+1][(((int)xFinal)-1)] == tourAdverse ) // Sud
+	{
+		printf("WOW YA UN PION ADVERSE AU SUD \n");
+	}						
 	//xFinal-1; yFinal;
 	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)-1] == tourAdverse) // Ouest
 	{
-		printf("OH PUTIN YA UN PION ADVERSE A L'OUEST \n");
+		printf("WOWd YA UN PION ADVERSE A L'OUEST \n");
 	}	
 }
 
@@ -71,9 +71,9 @@ int checkAucuneLiberte(int xFinal,int yFinal,int tblJeu[13][13])
 {
 	int nord, sud, est, ouest;
 	
-	nord = checkEmplacementLibre(tblJeu, (((int)yFinal)+1), ((int)xFinal));
+	nord = checkEmplacementLibre(tblJeu, (((int)yFinal)-1), ((int)xFinal));
 	est = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)+1));
-	sud = checkEmplacementLibre(tblJeu, (((int)yFinal)-1), ((int)xFinal));	
+	sud = checkEmplacementLibre(tblJeu, (((int)yFinal)+1), ((int)xFinal));	
 	ouest = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)-1));
 	
 	if (nord == 0 && est == 0 && sud == 0 && ouest == 0)
