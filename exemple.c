@@ -45,24 +45,24 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 	
 	//check des 4 positions adjacentes au pion placé (Nord Est Sud Ouest)
 	//xFinal; yFinal+1;
-	if( tblJeu[(((int)yFinal)-1)+1][(((int)xFinal)-1)] == tourAdverse ) // nord
-	{
-		printf("OH PUTIN YA UN FDP ADVERSE AU NORD \n");
-	}				
-	//xFinal+1; yFinal;
-	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // est
-	{
-		printf("OH PUTIN YA UN PION ADVERSE A L EST \n");
-	}
-	//xFinal; yFinal - 1;
-	if(tblJeu[(((int)yFinal)-1)-1][(((int)xFinal)-1)] == tourAdverse) // sud
+	if( tblJeu[(((int)yFinal)-1)+1][(((int)xFinal)-1)] == tourAdverse ) // Sud
 	{
 		printf("OH PUTIN YA UN PION ADVERSE AU SUD \n");
+	}				
+	//xFinal+1; yFinal;
+	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // Est
+	{
+		printf("OH PUTIN YA UN PION ADVERSE A L'EST \n");
+	}
+	//xFinal; yFinal - 1;
+	if(tblJeu[(((int)yFinal)-1)-1][(((int)xFinal)-1)] == tourAdverse) // Nord
+	{
+		printf("OH PUTIN YA UN PION ADVERSE AU NORD \n");
 	}			
 	//xFinal-1; yFinal;
-	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)-1] == tourAdverse) // ouest
+	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)-1] == tourAdverse) // Ouest
 	{
-		printf("OH PUTIN YA UN PION ADVERSE A L OUEST \n");
+		printf("OH PUTIN YA UN PION ADVERSE A L'OUEST \n");
 	}	
 }
 
