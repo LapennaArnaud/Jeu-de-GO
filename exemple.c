@@ -27,17 +27,21 @@ int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
 		return 0;
 }
 
-// IL FAUT DEBUGER LA FONCTION CHECK AUCUNE LIBERTE ---------------------------------------------------------------------------------<=====
-int checkAucuneLiberte(int xFinal,int yFinal,int tblJeu[13][13])
+int checkAucuneLiberte(int x ,int y,int tbl[13][13])
 {
-	int nord, sud, est, ouest;
+	int Pnord =5; // initialisation à 5 pour éviter les bugs ( 5 ne représente rien) 
+	int Pest=5;
+	int Psud=5;
+	int Pouest=5;
 	
-	nord = checkEmplacementLibre(tblJeu, (((int)yFinal)-1), ((int)xFinal));
-	est = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)+1));
-	sud = checkEmplacementLibre(tblJeu, (((int)yFinal)+1), ((int)xFinal));	
-	ouest = checkEmplacementLibre(tblJeu, ((int)yFinal), (((int)xFinal)-1));
-	printf("check aucune liberté ## nord: %d | est: %d | sud: %d | ouest: %d\n",nord,est,sud,ouest);
-	if (nord == 0 && est == 0 && sud == 0 && ouest == 0)
+	//afficherTableau(tbl,13);
+	Pnord = checkEmplacementLibre(tbl,((int)x),(((int)y)-1));
+	Pest = checkEmplacementLibre(tblJeu,(((int)x)+1), ((int)y));
+	Psud = checkEmplacementLibre(tblJeu, ((int)x), (((int)y)+1));	
+	Pouest = checkEmplacementLibre(tblJeu, (((int)x)-1), ((int)y));
+	
+	//printf("check aucune liberté coord (xy):%d;%d  ## nord: %d | est: %d | sud: %d | ouest: %d\n",x,y,Pnord,Pest,Psud,Pouest);
+	if (Pnord == 0 && Pest == 0 && Psud == 0 && Pouest == 0)
 		return 1;
 	else
 		return 0;
@@ -47,18 +51,20 @@ void transformePion(int xFinal,int yFinal,int tblJeu[13][13])
 {
 	if(tblJeu[(yFinal-1)][(xFinal-1)]!=0)
 	{
+		printf("la transformation commence au position : xy : %d|%d!!!\n",xFinal,yFinal);
+		//tblJeu[2][5];// position xy 6|3
 		if(tblJeu[(yFinal-1)][(xFinal-1)]==1)
 		{
 			tblJeu[(yFinal-1)][(xFinal-1)]=2;
 			color( 1.0,1.0,1.0);
 			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10);
-		}
-	
-		if(tblJeu[(yFinal-1)][(xFinal-1)]==2)
-		{
-			tblJeu[(yFinal-1)][(xFinal-1)]=1;
-			color( 0.0,0.0,0.0);
-			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10);
+		} else {
+			if(tblJeu[(yFinal-1)][(xFinal-1)]==2)
+			{
+				tblJeu[(yFinal-1)][(xFinal-1)]=1;
+				color( 0.0,0.0,0.0);
+				filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10);
+			}
 		}
 	}
 }
@@ -94,16 +100,31 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)+1] == tourAdverse) // Est
 	{
 		printf("WOW YA UN PION ADVERSE A L'EST \n");
+		if( checkAucuneLiberte((xFinal+1),yFinal,tblJeu) )
+		{
+			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			transformePion((xFinal+1),yFinal,tblJeu);
+		}
 	}
 	//xFinal; yFinal+1;
 	if( tblJeu[(((int)yFinal)-1)+1][(((int)xFinal)-1)] == tourAdverse ) // Sud
 	{
 		printf("WOW YA UN PION ADVERSE AU SUD \n");
+		if( checkAucuneLiberte(xFinal,(yFinal+1),tblJeu) )
+		{
+			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			transformePion(xFinal,(yFinal+1),tblJeu);
+		}
 	}						
 	//xFinal-1; yFinal;
 	if(tblJeu[(((int)yFinal)-1)][(((int)xFinal)-1)-1] == tourAdverse) // Ouest
 	{
 		printf("WOWd YA UN PION ADVERSE A L'OUEST \n");
+		if( checkAucuneLiberte((xFinal-1),yFinal,tblJeu) )
+		{
+			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			transformePion((xFinal-1),yFinal,tblJeu);
+		}
 	}	
 }
 
