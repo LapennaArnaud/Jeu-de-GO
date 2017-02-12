@@ -94,6 +94,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		{
 			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
 			transformePion(xFinal,(yFinal-1),tblJeu);
+			checkEnnemieAutour(tourJoueur,xFinal,(yFinal-1));
 		}
 	}
 	//xFinal+1; yFinal;
@@ -104,6 +105,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		{
 			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
 			transformePion((xFinal+1),yFinal,tblJeu);
+			checkEnnemieAutour(tourJoueur,(xFinal+1),yFinal);
 		}
 	}
 	//xFinal; yFinal+1;
@@ -114,6 +116,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		{
 			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
 			transformePion(xFinal,(yFinal+1),tblJeu);
+			checkEnnemieAutour(tourJoueur,xFinal,(yFinal+1));
 		}
 	}						
 	//xFinal-1; yFinal;
@@ -124,6 +127,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		{
 			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
 			transformePion((xFinal-1),yFinal,tblJeu);
+			checkEnnemieAutour(tourJoueur,(xFinal-1),yFinal);
 		}
 	}	
 }
