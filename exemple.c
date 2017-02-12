@@ -1,5 +1,6 @@
 #include "dessine.h"
 #include <math.h>
+#include "exemple.h"
 
 #define tailleCoteCarre 40
 
@@ -253,7 +254,7 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris)
 
 
 
-int main() 
+int jeudego() 
 {
 	
 	

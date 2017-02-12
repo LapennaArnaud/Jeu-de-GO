@@ -1,10 +1,10 @@
-all: exemple
+all: ihm
 
 clean:
-	rm exemple dessine.o libdessine.a
+	rm ihm dessine.o libdessine.a
 	
-exemple: exemple.c dessine.h libdessine.a
-	gcc -g exemple.c -o exemple -L. -ldessine -lX11 -lm
+ihm: ihm.c dessine.h libdessine.a
+	gcc -g ihm.c -o ihm -L. -ldessine -lX11 -lm
 
 libdessine.a: dessine.c dessine.h
 	gcc -g -c dessine.c
