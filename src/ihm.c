@@ -1,12 +1,13 @@
-#include "dessine.h"
+#include "headers/dessine.h"
 #include <math.h>
-//#include "exemple.h"
+#include "headers/exemple.h"
 
 #define tailleCoteCarre 40
 
 
 void mouse_clicked(int bouton, int x, int y)
 {
+
 	printf("#########--|| mouse_clickedddd ||--#########\n");
 	printf("\nBouton %d presse au coord. %d,%d \n",bouton,x,y);
 	
@@ -20,7 +21,9 @@ void mouse_clicked(int bouton, int x, int y)
 	if (x >= 230 && x <= 330 && y >= 60 && y <= 110)
 	{
 		printf("Dans la ZONE 13X13\n");
-		system("./Jeu-de-GO/13X13");
+		//get_current_dir_name()+"
+		system("/home/dev/Bureau/Jeu-de-GO/13X13");
+		//system("/home/dev/Bureau/Jeu-de-GO/13X13");
 	}	
 	
 	if (x >= 380 && x <= 480 && y >= 60 && y <= 110)
