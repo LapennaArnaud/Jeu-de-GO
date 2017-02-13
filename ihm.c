@@ -20,7 +20,7 @@ void mouse_clicked(int bouton, int x, int y)
 	if (x >= 230 && x <= 330 && y >= 60 && y <= 110)
 	{
 		printf("Dans la ZONE 13X13\n");
-		system("/home/dev/Bureau/Jeu-de-GO/13X13");
+		system("./Jeu-de-GO/13X13");
 	}	
 	
 	if (x >= 380 && x <= 480 && y >= 60 && y <= 110)

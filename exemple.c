@@ -1,11 +1,16 @@
 #include "dessine.h"
 #include <math.h>
+#include <time.h>
+#include <unistd.h>
 //#include "exemple.h"
 
 #define tailleCoteCarre 40
 
+
 int tblJeu[13][13]= {0};
 int tourJoueur = 1;
+
+
 
 void afficherTableau(int tblJeu[13][13], int tailleTbl)
 {
@@ -20,6 +25,7 @@ void afficherTableau(int tblJeu[13][13], int tailleTbl)
 	}
 }
 
+
 int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
 {
 	if(tblJeu[((int)yFinal)-1][((int)xFinal)-1]==0)
@@ -27,6 +33,9 @@ int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
 	else
 		return 0;
 }
+
+
+
 
 int checkAucuneLiberte(int x ,int y,int tbl[13][13])
 {
@@ -134,6 +143,42 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 }
 
 
+void tourIA(int tblJeu[13][13])
+{
+	int xFinal;
+	int yFinal;
+	
+	xFinal = (rand() % 13)+1;
+	yFinal = (rand() % 13)+1;
+	
+	
+	if(checkEmplacementLibre(tblJeu,xFinal,yFinal))
+	{
+		if(tourJoueur == 1) // noir
+			{
+				//on affiche le point sur l'intersection caculée (traitement)
+				color( 0.0,0.0,0.0);		
+				tblJeu[((int)yFinal)-1][((int)xFinal)-1] = 1; // /!\  coord y correspond aux ordonnées donc les lignesTBL [y][] ET coord x corresponf aux  absices donc les colonesTBL [][x]				
+				checkEnnemieAutour(tourJoueur,xFinal,yFinal);
+				tourJoueur=2;
+			}else
+			{
+				if(tourJoueur == 2) // blanc
+				{
+					//on affiche le point sur l'intersection caculée (traitement)
+					color( 1.0,1.0,1.0);		
+					tblJeu[((int)yFinal)-1][((int)xFinal)-1] = 2; // /!\  coord y correspond aux ordonnées donc les lignesTBL [y][] ET coord x corresponf aux  absices donc les colonesTBL [][x]
+					checkEnnemieAutour(tourJoueur,xFinal,yFinal);
+					tourJoueur=1;
+				}
+			}
+			//sleep(1);
+			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré
+			afficherTableau(tblJeu, 13);
+	}else{
+		tourIA(tblJeu);
+	}
+}
 
 
 /**
@@ -165,6 +210,7 @@ void draw_win(int nbLigne)
 void mouse_clicked(int bouton, int x, int y)
 {
 	printf("\n#########--|| mouse_clicked ||--#########\n");
+	
 	//printf("\nBouton %d presse au coord. %d,%d \n",bouton,x,y);
 	
 	
@@ -208,6 +254,7 @@ void mouse_clicked(int bouton, int x, int y)
 			}
 			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré
 			afficherTableau(tblJeu, 13);
+			tourIA(tblJeu);
 		}
 		else
 			printf("Vous ne pouvez pas replacer un pion ici \n");
