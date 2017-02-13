@@ -1,6 +1,6 @@
-#include "headers/dessine.h"
+#include "dessine.h"
 #include <math.h>
-#include "headers/exemple.h"
+//#include "headers/exemple.h"
 
 #define tailleCoteCarre 40
 
