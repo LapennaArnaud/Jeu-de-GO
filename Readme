@@ -1,3 +1,13 @@
 Jeu de GO en C
 
 Installer la librairie graphique : sudo apt-get install libx11-dev
+
+
+//rappel : 
+
+gcc -g -c pile.c // creer pile.o
+
+gcc -g -c main.c // creer main.o
+
+gcc main.c -o main pile.c  // gcc fichierCsource -o nomExE DependanceFIchierC1 
+

@@ -1,4 +1,4 @@
-#include "dessine.h"
+#include "IHM/dessine.h"
 #include <math.h>
 #include <time.h>
 #include <unistd.h>

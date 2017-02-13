@@ -1,15 +1,17 @@
 all: ihm 13X13
 
 clean:
-	rm src/ihm 13X13 src/dessine.o libdessine.a
+	rm IHM/ihm src/13X13 IHM/dessine.o IHM/libdessine.a
 	
-ihm: src/ihm.c src/dessine.h libdessine.a
-	gcc -g src/ihm.c -o ihm -L. -ldessine -lX11 -lm
+ihm: IHM/ihm.c IHM/dessine.c IHM/dessine.h IHM/libdessine.a
+	cd IHM; gcc -g -c dessine.c
+	cd IHM; ar -r libdessine.a dessine.o
+	cd IHM; gcc -g ihm.c -o ihm -L. -ldessine -lX11 -lm
 	
-13X13: src/exemple.c src/dessine.h libdessine.a
-	gcc -g src/exemple.c -o 13X13 -L. -ldessine -lX11 -lm
+13X13: src/jeu.c IHM/dessine.h IHM/libdessine.a
+	cd src; gcc -g jeu.c -o 13X13 -L. -ldessine -lX11 -lm
 
-libdessine.a: src/dessine.c src/dessine.h
-	gcc -g -c src/dessine.c
-	ar -r libdessine.a src/dessine.o
+libdessine.a:IHM/dessine.c IHM/dessine.h IHM/libdessine.a
+	cd IHM; gcc -g -c dessine.c
+	cd IHM; ar -r libdessine.a dessine.o
 	

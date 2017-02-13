@@ -1,7 +1,7 @@
-#ifndef exemple
-#define exemple
+#ifndef jeu
+#define jeu
 
-#include "dessine.h"
+#include "IHM/dessine.h"
 #include <math.h>
 
 void afficherTableau(int tblJeu[13][13], int tailleTbl);
