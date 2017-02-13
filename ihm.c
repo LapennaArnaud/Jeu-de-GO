@@ -1,6 +1,6 @@
 #include "dessine.h"
 #include <math.h>
-#include "exemple.h"
+//#include "exemple.h"
 
 #define tailleCoteCarre 40
 
@@ -14,13 +14,13 @@ void mouse_clicked(int bouton, int x, int y)
 	if (x >= 80 && x <= 180 && y >= 60 && y <= 110)
 	{
 		printf("Dans la ZONE 9X9\n");
-		//jeudego();
 	}
 			
 	
 	if (x >= 230 && x <= 330 && y >= 60 && y <= 110)
 	{
 		printf("Dans la ZONE 13X13\n");
+		system("/home/dev/Bureau/Jeu-de-GO/13X13");
 	}	
 	
 	if (x >= 380 && x <= 480 && y >= 60 && y <= 110)
