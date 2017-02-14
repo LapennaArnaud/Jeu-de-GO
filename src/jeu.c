@@ -2,7 +2,7 @@
 #include <math.h>
 #include <time.h>
 #include <unistd.h>
-//#include "exemple.h"
+#include "jeu.h"
 
 #define tailleCoteCarre 40
 
@@ -209,6 +209,7 @@ void draw_win(int nbLigne)
 		line(x0+i*tailleCoteCarre,y0,x0+i*tailleCoteCarre,tailleTot);
 		line(x0,y0+i*tailleCoteCarre,tailleTot,y0+i*tailleCoteCarre);
 	}
+	placerHoshi(nbLigne);
 }
 
 void redessinerWin(int nbLigne, int tblJeu[13][13],int tailleTbl)
@@ -216,7 +217,8 @@ void redessinerWin(int nbLigne, int tblJeu[13][13],int tailleTbl)
 	//clear le contenu de la frame et redessine les lignes 
 	clear_win();
 	color( 0.0,0.0,0.0);
-	draw_win(13);
+	draw_win(nbLigne);
+	placerHoshi(nbLigne);
 	
 	// places les pions sur le tableau
 	int i,j;
@@ -228,14 +230,14 @@ void redessinerWin(int nbLigne, int tblJeu[13][13],int tailleTbl)
 			if(tblJeu[i][j] == 1) // noir
 			{
 				//on affiche le point sur l'intersection caculée (traitement)
-				color( 0.0,0.0,0.0);						
+				color( 0.0,0.0,1.0);						
 				filled_circle((j+1)*tailleCoteCarre,(i+1)*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré	
 			}else
 			{
 				if(tblJeu[i][j] == 2) // blanc
 				{
 					//on affiche le point sur l'intersection caculée (traitement)
-					color( 1.0,1.0,1.0);		
+					color( 1.0,1.0,0.0);		
 					filled_circle((j+1)*tailleCoteCarre,(i+1)*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré	
 				}
 			}			
@@ -244,10 +246,12 @@ void redessinerWin(int nbLigne, int tblJeu[13][13],int tailleTbl)
 	
 	
 }
-/**
-//Hoshi
+
+//le placement des Hoshi
 void placerHoshi(int nbLigne)
 {
+	int x;
+	color( 0.0,0.0,0.0);
     if(nbLigne == 9)
     {
         filled_circle(120,120, 4);
@@ -274,7 +278,8 @@ void placerHoshi(int nbLigne)
         }
     }
 }
-**/
+
+
 /**
  * on a cliqué a la souris:
  * bouton: 1,2,3,4,5,... : gauche, milieu, droit, molette, ...
@@ -359,6 +364,7 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris)
 			break;
 		case XK_Left:
 			printf("gauche\n");
+			placerHoshi(13);
 			break;
 		case XK_Right:
 			printf("droite\n");

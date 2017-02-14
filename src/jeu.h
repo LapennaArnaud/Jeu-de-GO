@@ -1,7 +1,7 @@
 #ifndef jeu
 #define jeu
 
-#include "IHM/dessine.h"
+//#include "IHM/dessine.h"
 #include <math.h>
 
 void afficherTableau(int tblJeu[13][13], int tailleTbl);
@@ -21,6 +21,8 @@ void draw_win(int nbLigne);
 void mouse_clicked(int bouton, int x, int y);
 
 void key_pressed(KeySym code, char c, int x_souris, int y_souris);
+
+void placerHoshi(int nbLigne);
 
 
 #endif

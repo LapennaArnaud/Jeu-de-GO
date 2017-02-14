@@ -4,7 +4,7 @@ SRC = ./src/
 CFLAGS = -I./IHM/
 LDFLAGS = -lX11 -lm
 
-all: clean ihm 13X13
+all: ihm 13X13
 
 
 
