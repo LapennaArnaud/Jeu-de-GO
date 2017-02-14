@@ -24,5 +24,7 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris);
 
 void placerHoshi(int nbLigne);
 
+int coupSuicide(int tourJoueur, int x ,int y,int tbl[13][13]);
+
 
 #endif

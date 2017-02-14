@@ -10,7 +10,7 @@
 int tblJeu[13][13]= {0};
 int tourJoueur = 1;
 
-
+//focntion qui calcule et affiche les points
 void compteurPoint(int tblJeu[13][13], int tailleTbl)
 {
 	int i,j;
@@ -31,10 +31,21 @@ void compteurPoint(int tblJeu[13][13], int tailleTbl)
 				}
 		}
 	}
-	printf("Nombre de point de Noir : %d\n", compteurN);
-	printf("Nombre de point de Blanc : %d\n", compteurB);
+	//cocnaténation du string à afficher pour le compeur
+	char chaineCaractereN[] = "COMPTEUR  Noir : ";
+	char chaineCaractereB[] = "| Blanc : ";
+	char chaineNoir[10];
+	char chaineBlanc[10];
+	sprintf(chaineNoir, "%d",compteurN);
+	sprintf(chaineBlanc, "%d",compteurB);
+	strcat(chaineCaractereN,chaineNoir);
+	strcat(chaineCaractereB,chaineBlanc);
+	color( 0.0,0.0,0.0);
+	string(25,560, chaineCaractereN );
+	string(145,560, chaineCaractereB );
 }
 
+//pour afficher le tableau représentant la table dans la console 
 void afficherTableau(int tblJeu[13][13], int tailleTbl)
 {
 	int i,j;
@@ -48,7 +59,7 @@ void afficherTableau(int tblJeu[13][13], int tailleTbl)
 	}
 }
 
-
+// vérie pour un emplacement donnée si il n'y a pas de pion
 int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
 {
 	if(tblJeu[((int)yFinal)-1][((int)xFinal)-1]==0)
@@ -58,8 +69,56 @@ int checkEmplacementLibre(int tblJeu[13][13], int xFinal, int yFinal)
 }
 
 
+//vérifie si le coup est un coup suicide
+int coupSuicide(int tourJoueur, int x ,int y,int tbl[13][13]){
+	
+	int aucuneLiberte = checkAucuneLiberte(x,y,tbl); // 1 si aucune liberte 0 si liberte
+	int encercleParEnnemis=0;
+	
+	int Enord =0; // initialisation à 5 pour éviter les bugs ( 5 ne représente rien) 
+	int Eest=0;
+	int Esud=0;
+	int Eouest=0;
+	
+	int tourAdverse;
+	
+	if(tourJoueur==1)
+		tourAdverse=1;
+	else
+		tourAdverse=2;
+	
+	//check des 4 positions adjacentes au pion placé (Nord Est Sud Ouest)
+	if(tblJeu[(((int)y)-1)-1][(((int)x)-1)] == tourAdverse) // Nord
+	{
+		Enord=1;
+	}
+	//xFinal+1; yFinal;
+	if(tblJeu[(((int)y)-1)][(((int)x)-1)+1] == tourAdverse) // Est
+	{
+		Eest=1;
+	}
+	//xFinal; yFinal+1;
+	if( tblJeu[(((int)y)-1)+1][(((int)x)-1)] == tourAdverse ) // Sud
+	{
+		Esud=1;
+	}						
+	//xFinal-1; yFinal;
+	if(tblJeu[(((int)y)-1)][(((int)x)-1)-1] == tourAdverse) // Ouest
+	{
+		Eouest=1;
+	}	
+	
+	if (Enord == 0 && Eest == 0 && Esud == 0 && Eouest == 0)
+		encercleParEnnemis = 1;
+	
+	if(aucuneLiberte==1 && encercleParEnnemis==1)
+		return 1;
+	else
+		return 0;
+	
+}
 
-
+//vérifie si le pion donné n'a pas de liberté 
 int checkAucuneLiberte(int x ,int y,int tbl[13][13])
 {
 	int Pnord =5; // initialisation à 5 pour éviter les bugs ( 5 ne représente rien) 
@@ -79,7 +138,8 @@ int checkAucuneLiberte(int x ,int y,int tbl[13][13])
 	else
 		return 0;
 }
-
+/**
+//remplace un pion noir par un pion blanc et vice versa
 void transformePion(int xFinal,int yFinal,int tblJeu[13][13])
 {
 	if(tblJeu[(yFinal-1)][(xFinal-1)]!=0)
@@ -101,8 +161,27 @@ void transformePion(int xFinal,int yFinal,int tblJeu[13][13])
 		}
 	}
 }
+**/
+
+//supprime un pion capturer
+void transformePion(int xFinal,int yFinal,int tblJeu[13][13])
+{
+	if(tblJeu[(yFinal-1)][(xFinal-1)]!=0)
+	{
+		if(tblJeu[(yFinal-1)][(xFinal-1)]==1)
+		{
+			tblJeu[(yFinal-1)][(xFinal-1)]=0;
+		} else {
+			if(tblJeu[(yFinal-1)][(xFinal-1)]==2)
+			{
+				tblJeu[(yFinal-1)][(xFinal-1)]=0;
+			}
+		}
+	}
+}
 
 
+//vérifie si il y a un ou des pion ennemis autours et les tranformes
 void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 {
 	int tourAdverse;
@@ -233,6 +312,13 @@ void draw_win(int nbLigne)
 		line(x0,y0+i*tailleCoteCarre,tailleTot,y0+i*tailleCoteCarre);
 	}
 	placerHoshi(nbLigne);
+	compteurPoint(tblJeu,13);
+	
+	color( 0.8,0.8,0.8);
+	filled_rectangle(400, 540, 60, 40);
+	color( 0,0,0);
+	rectangle(400, 540, 60, 40);
+	string(415, 565, "Save");
 }
 
 void redessinerWin(int nbLigne, int tblJeu[13][13],int tailleTbl)
@@ -253,19 +339,20 @@ void redessinerWin(int nbLigne, int tblJeu[13][13],int tailleTbl)
 			if(tblJeu[i][j] == 1) // noir
 			{
 				//on affiche le point sur l'intersection caculée (traitement)
-				color( 0.0,0.0,1.0);						
+				color( 0.0,0.0,0.0);						
 				filled_circle((j+1)*tailleCoteCarre,(i+1)*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré	
 			}else
 			{
 				if(tblJeu[i][j] == 2) // blanc
 				{
 					//on affiche le point sur l'intersection caculée (traitement)
-					color( 1.0,1.0,0.0);		
+					color( 1.0,1.0,1.0);		
 					filled_circle((j+1)*tailleCoteCarre,(i+1)*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré	
 				}
 			}			
 		}
 	}
+	compteurPoint(tblJeu,tailleTbl);
 	
 	
 }
@@ -302,6 +389,54 @@ void placerHoshi(int nbLigne)
     }
 }
 
+//sauvegarde du plateau
+int sauvegarder_partie(int nbLigne,int tblJeu[13][13])
+{
+	time_t rawtime;
+	char buffer [255];
+
+	time (&rawtime);
+	sprintf(buffer,"save/Save_GO_%s",ctime(&rawtime) );
+
+	char *p = buffer;
+	for (; *p; ++p)
+	{
+		if (*p == ' ')
+			  *p = '_';
+	}
+
+	FILE *fichier = fopen(buffer,"a");
+	if (fichier != NULL){
+		
+		int savei;
+		int savej;
+		printf("%s",buffer);
+		fprintf(fichier,"Table de jeu en cours :");
+		fputs("\n", fichier);
+		for ( savei = 0; savei<nbLigne; savei++ )
+		{
+			for ( savej = 0; savej<nbLigne; savej++ )
+			{
+				fputs(" [", fichier);					
+				fprintf(fichier,"%d",tblJeu[savei][savej]);
+				fprintf(fichier,"] ");
+				//fputs(",", fichier);				
+				
+			}
+			fputs("\n", fichier);
+		}
+		fputs("\n", fichier);
+		fputs("\n", fichier);
+		
+		fclose(fichier);
+		return 1;
+	}
+	else
+	{
+		printf("Ecriture impossible");
+		return 0;
+	}	
+}
 
 /**
  * on a cliqué a la souris:
@@ -314,6 +449,12 @@ void mouse_clicked(int bouton, int x, int y)
 	
 	//printf("\nBouton %d presse au coord. %d,%d \n",bouton,x,y);
 	
+	//vérifie si ce n'est pas un clic sur le boutont sauvegarde
+	if (x >= 400 && x <= 460 && y >= 540 && y <= 580)
+	{
+		printf("Vous demandez la sauvegarde\n");
+		sauvegarder_partie(13,tblJeu);		
+	}
 	
 	//on calcule la l'intersection selectionné
 	double xFinal= x;
@@ -333,7 +474,7 @@ void mouse_clicked(int bouton, int x, int y)
 		
 	}else
 	{
-		if (checkEmplacementLibre(tblJeu, xFinal, yFinal)==1)
+		if (checkEmplacementLibre(tblJeu, xFinal, yFinal)==1 && coupSuicide(tourJoueur,xFinal,yFinal,tblJeu)==0)
 		{
 			if(tourJoueur == 1) // noir
 			{
@@ -355,7 +496,8 @@ void mouse_clicked(int bouton, int x, int y)
 			}
 			filled_circle(xFinal*tailleCoteCarre,yFinal*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré
 			afficherTableau(tblJeu, 13);
-			tourIA(tblJeu);
+			//tourIA(tblJeu);
+			redessinerWin(13,tblJeu,13);
 		}
 		else
 			printf("Vous ne pouvez pas replacer un pion ici \n");
@@ -391,6 +533,7 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris)
 			break;
 		case XK_Right:
 			printf("droite\n");
+			sauvegarder_partie(13,tblJeu);
 			break;
 	//~ case XK_Return:
 	//~ case XK_Shift_L:
@@ -413,7 +556,7 @@ int main()
 {
 	
 	srand(time(NULL));
-	init_win(560,560,"13X13",204,153,102);
+	init_win(560,600,"13X13",204,153,102);
 	event_loop(13); // 13 est le nombre de lignes de notre jeu de GO
 	return EXIT_SUCCESS;
 	
