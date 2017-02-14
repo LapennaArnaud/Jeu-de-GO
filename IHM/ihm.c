@@ -22,7 +22,7 @@ void mouse_clicked(int bouton, int x, int y)
 	{
 		printf("Dans la ZONE 13X13\n");
 		//get_current_dir_name()+"
-		system("/home/dev/Bureau/Jeu-de-GO/13X13");
+		system("./13X13");
 		//system("/home/dev/Bureau/Jeu-de-GO/13X13");
 	}	
 	

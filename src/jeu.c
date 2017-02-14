@@ -1,4 +1,4 @@
-#include "IHM/dessine.h"
+#include "dessine.h"
 #include <math.h>
 #include <time.h>
 #include <unistd.h>
@@ -102,7 +102,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		printf("WOW YA UN PION ADVERSE AU NORD \n");
 		if( checkAucuneLiberte(xFinal,(yFinal-1),tblJeu) )
 		{
-			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			printf("il n'a pas de liberté ! => on le transforme\n");
 			transformePion(xFinal,(yFinal-1),tblJeu);
 			checkEnnemieAutour(tourJoueur,xFinal,(yFinal-1));
 		}
@@ -113,7 +113,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		printf("WOW YA UN PION ADVERSE A L'EST \n");
 		if( checkAucuneLiberte((xFinal+1),yFinal,tblJeu) )
 		{
-			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			printf("il n'a pas de liberté ! => on le transforme\n");
 			transformePion((xFinal+1),yFinal,tblJeu);
 			checkEnnemieAutour(tourJoueur,(xFinal+1),yFinal);
 		}
@@ -124,7 +124,7 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		printf("WOW YA UN PION ADVERSE AU SUD \n");
 		if( checkAucuneLiberte(xFinal,(yFinal+1),tblJeu) )
 		{
-			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			printf("il n'a pas de liberté ! => on le transforme\n");
 			transformePion(xFinal,(yFinal+1),tblJeu);
 			checkEnnemieAutour(tourJoueur,xFinal,(yFinal+1));
 		}
@@ -135,11 +135,18 @@ void checkEnnemieAutour(int tourJoueur,int xFinal,int yFinal)
 		printf("WOWd YA UN PION ADVERSE A L'OUEST \n");
 		if( checkAucuneLiberte((xFinal-1),yFinal,tblJeu) )
 		{
-			printf("il n'a pas de liberté ! => on le transforme ce batard\n");
+			printf("il n'a pas de liberté ! => on le transforme\n");
 			transformePion((xFinal-1),yFinal,tblJeu);
 			checkEnnemieAutour(tourJoueur,(xFinal-1),yFinal);
 		}
 	}	
+}
+
+int customRandom(int minInclu, int maxInclu)
+{
+	int valeur;
+	
+	valeur = ((rand()%(maxInclu-minInclu))+minInclu);
 }
 
 
@@ -148,8 +155,12 @@ void tourIA(int tblJeu[13][13])
 	int xFinal;
 	int yFinal;
 	
-	xFinal = (rand() % 13)+1;
-	yFinal = (rand() % 13)+1;
+	do
+	{
+		xFinal = customRandom(1,13);
+		yFinal = customRandom(1,13);
+	}while(xFinal < 1 || yFinal < 1 || xFinal > 13 || yFinal > 13 );
+	
 	
 	
 	if(checkEmplacementLibre(tblJeu,xFinal,yFinal))
@@ -200,8 +211,70 @@ void draw_win(int nbLigne)
 	}
 }
 
-
-
+void redessinerWin(int nbLigne, int tblJeu[13][13],int tailleTbl)
+{
+	//clear le contenu de la frame et redessine les lignes 
+	clear_win();
+	color( 0.0,0.0,0.0);
+	draw_win(13);
+	
+	// places les pions sur le tableau
+	int i,j;
+	for(i=0; i<tailleTbl; i++)
+	{
+		for(j=0; j<tailleTbl; j++)
+		{
+			
+			if(tblJeu[i][j] == 1) // noir
+			{
+				//on affiche le point sur l'intersection caculée (traitement)
+				color( 0.0,0.0,0.0);						
+				filled_circle((j+1)*tailleCoteCarre,(i+1)*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré	
+			}else
+			{
+				if(tblJeu[i][j] == 2) // blanc
+				{
+					//on affiche le point sur l'intersection caculée (traitement)
+					color( 1.0,1.0,1.0);		
+					filled_circle((j+1)*tailleCoteCarre,(i+1)*tailleCoteCarre,10); // on place bien la valeur par multiple du cotèscarré	
+				}
+			}			
+		}
+	}
+	
+	
+}
+/**
+//Hoshi
+void placerHoshi(int nbLigne)
+{
+    if(nbLigne == 9)
+    {
+        filled_circle(120,120, 4);
+        filled_circle(120,280, 4);
+        filled_circle(280,120, 4);
+        filled_circle(280,280, 4);
+    }   
+    else if(nbLigne == 13)
+    {
+        for(x=0; x<=2; x++)
+        {
+            filled_circle(160 + (x*120),160, 4);
+            filled_circle(160 + (x*120),280, 4);
+            filled_circle(160 + (x*120),400, 4);
+        }
+    }   
+    else if(nbLigne == 19)
+    {
+        for(x=0; x<=2; x++)
+        {
+            filled_circle(160 + (x*240),160, 4);
+            filled_circle(160 + (x*240),400, 4);
+            filled_circle(160 + (x*240),640, 4);
+        }
+    }
+}
+**/
 /**
  * on a cliqué a la souris:
  * bouton: 1,2,3,4,5,... : gauche, milieu, droit, molette, ...
@@ -278,9 +351,11 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris)
 	{
 		case XK_Down:
 			printf("bas\n");
+			redessinerWin(13,tblJeu,13);
 			break;
 		case XK_Up:
 			printf("haut\n");
+			clear_win();
 			break;
 		case XK_Left:
 			printf("gauche\n");
@@ -308,7 +383,7 @@ void key_pressed(KeySym code, char c, int x_souris, int y_souris)
 int main() 
 {
 	
-	
+	srand(time(NULL));
 	init_win(560,560,"13X13",204,153,102);
 	event_loop(13); // 13 est le nombre de lignes de notre jeu de GO
 	return EXIT_SUCCESS;
