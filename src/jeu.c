@@ -11,6 +11,29 @@ int tblJeu[13][13]= {0};
 int tourJoueur = 1;
 
 
+void compteurPoint(int tblJeu[13][13], int tailleTbl)
+{
+	int i,j;
+	int compteurN = 0;
+	int compteurB = 0;
+	
+	for(i=0; i<tailleTbl; i++)
+	{
+		for(j=0; j<tailleTbl; j++)
+		{
+			if (tblJeu[i][j]==1)
+			{
+				compteurN++;
+			}else
+				if (tblJeu[i][j]==2)
+				{
+					compteurB++;
+				}
+		}
+	}
+	printf("Nombre de point de Noir : %d\n", compteurN);
+	printf("Nombre de point de Blanc : %d\n", compteurB);
+}
 
 void afficherTableau(int tblJeu[13][13], int tailleTbl)
 {
