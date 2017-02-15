@@ -15,13 +15,13 @@ void mouse_clicked(int bouton, int x, int y)
 	if (x >= 80 && x <= 180 && y >= 60 && y <= 110)
 	{
 		printf("Dans la ZONE 9X9\n");
+		system("./9X9");
 	}
 			
 	
 	if (x >= 230 && x <= 330 && y >= 60 && y <= 110)
 	{
 		printf("Dans la ZONE 13X13\n");
-		//get_current_dir_name()+"
 		system("./13X13");
 		//system("/home/dev/Bureau/Jeu-de-GO/13X13");
 	}	
@@ -29,11 +29,13 @@ void mouse_clicked(int bouton, int x, int y)
 	if (x >= 380 && x <= 480 && y >= 60 && y <= 110)
 	{
 		printf("Dans la ZONE 19X19\n");
+		system("./19X19");
 	}
 	
 	if (x >= 80 && x <= 180 && y >= 170 && y <= 220)
 	{
 		printf("Dans la ZONE I.A\n");
+		system("./IA");
 	}
 
 }
